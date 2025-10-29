@@ -1,0 +1,76 @@
+<div class="stage" [class.opened]="opened" (click)="open()" role="application">
+  <!-- Background -->
+  <div class="bg-image" [ngStyle]="{
+      'background-color': opened ? 'transparent' : 'black',
+      'background-image': opened ? 'url(' + currentBg + ')' : 'none'
+    }" aria-hidden="true"></div>
+
+  <!-- Snow -->
+  <canvas id="snow-c" class="snow-canvas" aria-hidden="true"></canvas>
+
+  <!-- Audio -->
+  <audio #audioRef [src]="audioSrc"></audio>
+
+  <!-- Splash -->
+  <div class="splash" [class.hidden]="opened">
+    <h1>click anywhere</h1>
+  </div>
+
+  <!-- Background image INSIDE overlay (only visible when opened) -->
+  <div class="overlay-bg" *ngIf="opened" [ngStyle]="{'background-image': 'url(' + currentBg + ')'}"></div>
+  <!-- Overlay with 3D Card -->
+  <div class="overlay" [class.show]="opened" (click)="close()" [attr.aria-hidden]="!opened">
+
+    <!-- Card content -->
+    <div class="item card" [class.show]="opened" (click)="$event.stopPropagation()" #cardRef>
+      <div class="card-content">
+        <div class="avatar">👤</div>
+
+        <div class="main">
+          <div class="name-row">
+            <div class="username">7FPS <span>♦︎</span></div>
+            <div class="badge">♦</div>
+          </div>
+
+          <div class="type">
+            business: abc101@gmail.com<span class="cursor">|</span>
+          </div>
+
+          <hr class="sep" />
+
+          <div class="socials">
+            <a href="https://discord.com" target="_blank"><i class="bi bi-discord"></i></a>
+            <a href="https://tiktok.com" target="_blank"><i class="bi bi-tiktok"></i></a>
+            <a href="https://youtube.com" target="_blank"><i class="bi bi-youtube"></i></a>
+            <a href="https://twitter.com" target="_blank"><i class="bi bi-twitter-x"></i></a>
+            <a href="https://spotify.com" target="_blank"><i class="bi bi-spotify"></i></a>
+          </div>
+
+          <div class="meta-row">
+            <div class="views">
+              <i class="bi bi-emoji-heart-eyes"></i> <span>736</span>
+            </div>
+          </div>
+
+          <div class="player">
+            <div class="note">♪</div>
+            <div class="progress">
+              <div class="times">
+                <span>{{ currentTime }}</span>
+                <span>{{ duration }}</span>
+              </div>
+              <input type="range" min="0" max="100" [value]="progress"
+                (input)="seekPercent($any($event.target).value)" />
+            </div>
+            <audio controls>
+              <source src="/spring-lofi.mp3" type="audio/mpeg" />
+              Your browser does not support the audio element.
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<router-outlet />
