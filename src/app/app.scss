@@ -1,211 +1,254 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
-/* =============================
-   GLOBAL BODY
-============================= */
-body {
-  background-color: #15191f;
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  align-items: center;
-  gap: 3em;
-  height: 100vh;
-  width: 100vw;
-  font-family: 'Montserrat', sans-serif;
-
-  @media only screen and (max-width: 600px) {
-    flex-direction: column;
-  }
-}
-
-/* =============================
-   CARD STYLING
-============================= */
-.card {
-  height: 300px;
-  width: 450px;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: rgba(255, 255, 255, 0.5);
-  background-image: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.15),
-    rgba(21, 25, 31, 0)
-  );
-  transition: all 0.3s ease;
-  cursor: pointer;
-  z-index: 5;
-
-  &:hover {
-    filter: drop-shadow(0 0 0px rgba(255, 255, 255, 0.6));
-    color: rgba(255, 255, 255, 0.8);
-  }
-}
-
-/* =============================
-   ANGULAR STAGE
-============================= */
-:host {
-  display: block;
-  height: 100vh;
-
-  .stage {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    background: #000;
-    color: #fff;
-    cursor: pointer;
-    font-family: 'Segoe UI', system-ui, -apple-system, 'Press Start 2P', monospace;
-
-    /* Background image or color (changes dynamically) */
-    .bg-image {
-      position: fixed;
-      inset: 0;
-      background-color: black;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      opacity: 0; /* Hidden by default */
-      transition: opacity 1s ease-in-out, background-image 1s ease-in-out;
-      z-index: -2;
-
-      /* When stage is opened, fade image in */
-      .stage.opened & {
-        opacity: 1;
-      }
-    }
-.overlay-bg {
-  position: absolute;
+.background {
+  position: fixed;
   inset: 0;
+  background-image: url('/bg1.jpg'); /* ✅ make sure bg1.jpg is inside public/ */
   background-size: cover;
   background-position: center;
-  transition: opacity 0.8s ease;
-  opacity: 1; /* make sure it's visible */
-  z-index: 0;
+  background-repeat: no-repeat;
+  z-index: -1;
+}
+.background {
+  position: fixed;
+  inset: 0;
   background-image: url('/bg1.jpg');
-
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
 }
 
-    .snow-canvas {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-    }
+#splash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: opacity 1s ease;
+  z-index: 10;
+}
 
-    /* Splash Screen */
-    .splash {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Press Start 2P', monospace;
-      font-size: 1.2rem;
-      letter-spacing: 1px;
-      color: #fff;
-      text-align: center;
-      text-shadow: 0 0 6px rgba(255, 255, 255, 0.08),
-        0 0 12px rgba(255, 255, 255, 0.04);
-      transition: opacity 0.6s ease, transform 0.4s ease;
-      pointer-events: auto;
+#splash p {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
+}
 
-      &.hidden {
-        opacity: 0;
-        transform: translateY(-8px);
-        pointer-events: none;
-      }
-    }
+#content {
+  position: relative;
+  z-index: 3;
+  display: none;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
 
-    /* Overlay (contains card) */
-    .overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: transparent;
-      pointer-events: none;
-      transition: opacity 0.4s ease;
-
-      &.show {
-        pointer-events: auto;
-      }
-
-      .card {
-        width: min(480px, 90%);
-        background: rgba(10, 10, 10, 0.45);
-        border-radius: 14px;
-        padding: 2rem;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-        backdrop-filter: blur(12px) saturate(120%);
-        z-index: 4;
-        transform: translateY(-18px);
-        opacity: 0;
-        transition: all 0.45s ease;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 1.5rem;
-
-        &.show {
-          transform: translateY(0);
-          opacity: 1;
-        }
-
-        .avatar {
-          width: 120px;
-          height: 120px;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.95);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 3.2rem;
-          color: #222;
-        }
-      }
-    }
+  &.visible {
+    display: flex;
   }
 }
 
-/* =============================
-   ANIMATIONS
-============================= */
-@keyframes blink {
-  0%, 50% {
-    opacity: 1;
+.profile-card {
+  background: rgba(0, 0, 0, 0.8);
+  padding: 2rem 3rem;
+  border-radius: 1.5rem;
+  text-align: center;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+  width: 360px;
+  transition: transform 0.6s ease, box-shadow 0.6s ease;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+
+  img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    border: 3px solid #fff;
+    transition: transform 0.6s ease;
   }
-  51%, 100% {
-    opacity: 0;
+
+  &:hover {
+    transform: rotateY(8deg) rotateX(4deg) scale(1.05);
+    box-shadow: 0 10px 40px rgba(0, 255, 255, 0.3);
+
+    img {
+      transform: scale(1.1) translateY(-4px);
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+    }
+  }
+
+  &:active {
+    transform: rotateY(-6deg) rotateX(-3deg) scale(0.98);
   }
 }
 
-/* =============================
-   RESPONSIVENESS
-============================= */
-@media (max-width: 720px) {
-  .stage .overlay .card {
-    width: 90%;
-    padding: 1rem;
-  }
 
-  .stage .overlay .card .avatar {
-    width: 96px;
-    height: 96px;
-  }
+.socials {
+  margin: 1rem 0;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
 
-  .stage .splash {
+  a {
+    color: white;
+    font-size: 1.5rem;
+    transition: 0.3s;
+    &:hover {
+      color: #1db954;
+    }
+  }
+}
+
+.player {
+  margin-top: 1.5rem;
+  text-align: center;
+
+  .song-info {
     font-size: 0.95rem;
-    padding: 0 10px;
+    color: #cfcfcf;
+    margin-bottom: 1rem;
+    letter-spacing: 0.5px;
+  }
+
+  .controls {
+    margin: 0.8rem 0 1.2rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+
+    button {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 2.2rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, color 0.3s ease;
+
+      &:hover {
+        transform: scale(1.2);
+        color: #1db954; /* Spotify green glow on hover */
+      }
+
+      i {
+        filter: drop-shadow(0 0 6px rgba(29, 185, 84, 0.4));
+      }
+    }
+  }
+
+  /* 🎚️ Progress bar + timer */
+  .progress {
+  position: relative;
+  width: 100%;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  /* --- Fill bar animation --- */
+  &::before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: var(--progress, 0%);
+    background: linear-gradient(90deg, #6a00ff, #00fff2);
+    box-shadow: 0 0 15px rgba(0, 255, 242, 0.7);
+    border-radius: 10px;
+    transition: width 0.3s linear;
+  }
+
+  /* --- Moving shine animation --- */
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -50px;
+    width: 50px;
+    height: 100%;
+    background: linear-gradient(
+      120deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+    animation: shine 2s infinite;
+  }
+
+  @keyframes shine {
+    0% {
+      left: -60px;
+    }
+    100% {
+      left: 110%;
+    }
+  }
+
+  /* --- Time display --- */
+  .time-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 6px;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+    text-shadow: 0 0 5px #00fff2;
   }
 }
+
+
+}
+#snow-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* clicks pass through */
+  z-index: 2; /* below profile-card (which is z-index: 3) */
+}
+
+.typing-email {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #00fff2; /* fallback */
+  background: linear-gradient(25deg, #6a00ff, #00fff2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid #00fff2;
+  
+  display: inline-block;
+  animation: typing 2.5s steps(22, end) forwards, blink 1s step-end infinite;
+  position: relative;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
+

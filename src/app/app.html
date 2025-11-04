@@ -1,76 +1,56 @@
-<div class="stage" [class.opened]="opened" (click)="open()" role="application">
-  <!-- Background -->
-  <div class="bg-image" [ngStyle]="{
-      'background-color': opened ? 'transparent' : 'black',
-      'background-image': opened ? 'url(' + currentBg + ')' : 'none'
-    }" aria-hidden="true"></div>
+<div class="background"></div>
+<!-- Snow Canvas Overlay -->
 
-  <!-- Snow -->
-  <canvas id="snow-c" class="snow-canvas" aria-hidden="true"></canvas>
+<!-- 🌙 Splash Overlay -->
+<div id="splash" *ngIf="!opened" (click)="openContent()">
+  <p>click anywhere for socials :v</p>
+</div>
 
-  <!-- Audio -->
-  <audio #audioRef [src]="audioSrc"></audio>
+<!-- 🌌 Main Content -->
+<div id="content" [class.visible]="opened">
+  <canvas id="snow-canvas"></canvas>
+  <div class="profile-card">
+    <div class="avatar">
+      <img src="logo.jpeg" alt="Profile" />
+    </div>
+    <h4>7FPS</h4>
 
-  <!-- Splash -->
-  <div class="splash" [class.hidden]="opened">
-    <h1>click anywhere</h1>
-  </div>
+    <div class="email">
+      <strong>Business:</strong>
+    <p>
+      <a href="mailto:mclaunde195@gmail.com" class="typing-email">
+        mclaunde195@gmail.com
+      </a>
+    </p>
+    </div>
 
-  <!-- Background image INSIDE overlay (only visible when opened) -->
-  <div class="overlay-bg" *ngIf="opened" [ngStyle]="{'background-image': 'url(' + currentBg + ')'}"></div>
-  <!-- Overlay with 3D Card -->
-  <div class="overlay" [class.show]="opened" (click)="close()" [attr.aria-hidden]="!opened">
 
-    <!-- Card content -->
-    <div class="item card" [class.show]="opened" (click)="$event.stopPropagation()" #cardRef>
-      <div class="card-content">
-        <div class="avatar">👤</div>
+    <div class="socials">
+      <a routerLink="https://www.instagram.com/7spfs?igsh=NWdjdjQ2ZXltMngx"><i class="bi bi-instagram"></i></a>
+      <a routerLink="https://youtube.com/@aimstar7-11?si=Vwtb20uOOLgXFA59"><i class="bi bi-youtube"></i></a>
+      <a routerLink="https://discord.com/invite/5Xk5WgDhFv"><i class="bi bi-discord"></i></a>
+    </div>
 
-        <div class="main">
-          <div class="name-row">
-            <div class="username">7FPS <span>♦︎</span></div>
-            <div class="badge">♦</div>
-          </div>
-
-          <div class="type">
-            business: abc101@gmail.com<span class="cursor">|</span>
-          </div>
-
-          <hr class="sep" />
-
-          <div class="socials">
-            <a href="https://discord.com" target="_blank"><i class="bi bi-discord"></i></a>
-            <a href="https://tiktok.com" target="_blank"><i class="bi bi-tiktok"></i></a>
-            <a href="https://youtube.com" target="_blank"><i class="bi bi-youtube"></i></a>
-            <a href="https://twitter.com" target="_blank"><i class="bi bi-twitter-x"></i></a>
-            <a href="https://spotify.com" target="_blank"><i class="bi bi-spotify"></i></a>
-          </div>
-
-          <div class="meta-row">
-            <div class="views">
-              <i class="bi bi-emoji-heart-eyes"></i> <span>736</span>
-            </div>
-          </div>
-
-          <div class="player">
-            <div class="note">♪</div>
-            <div class="progress">
-              <div class="times">
-                <span>{{ currentTime }}</span>
-                <span>{{ duration }}</span>
-              </div>
-              <input type="range" min="0" max="100" [value]="progress"
-                (input)="seekPercent($any($event.target).value)" />
-            </div>
-            <audio controls>
-              <source src="/spring-lofi.mp3" type="audio/mpeg" />
-              Your browser does not support the audio element.
-            </audio>
-          </div>
-        </div>
+    <!-- 🎵 Music Player -->
+    <div class="player">
+      <div class="song-info">
+        <span>Now Playing: Lost Sky - Fearless</span>
       </div>
+
+      <div class="controls">
+        <button (click)="togglePlayPause()">
+          <i [ngClass]="playing ? 'bi bi-pause-circle' : 'bi bi-play-circle'"></i>
+        </button>
+        <button (click)="toggleMute()">
+          <i [ngClass]="muted ? 'bi bi-volume-mute-fill' : 'bi bi-volume-up-fill'"></i>
+        </button>
+        <button (click)="stopAudio()"><i class="bi bi-stop-circle"></i></button>
+      </div>
+
+      <div class="progress" [style.--progress]="progress + '%'"></div>
+
+
+      <audio #audioRef [src]="audioSrc" preload="auto"></audio>
     </div>
   </div>
 </div>
-
-<router-outlet />
